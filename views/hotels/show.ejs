@@ -1,0 +1,526 @@
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" href="/stylesheets/stars.css">
+<link rel="stylesheet" href="/stylesheets/show.css">
+<%- include('../partials/header.ejs') %>
+
+<style>
+  /* body {
+      margin: 0;
+      padding: 0;
+  } */
+  #map {
+    /* position: absolute; */
+    top:0;
+    bottom:0;
+    /* margin-top: 10rem; */
+    width: 100%;
+    height: 100%;
+  }
+  /* .selected{
+      color: red;
+  } */
+</style>
+
+<section class="section-1">
+  <div class="banner" style="background-image: url('/images/flowers.jpg')">
+    <div class="banner-text">
+        <!-- TAKE YOUR <br> NEXT EVENT UP -->
+        <%= hotel.name %> 
+        
+        <p><h2>A chance to go offline and
+          get in touch with nature</h2></p>
+    </div>
+  </div>
+
+</section>
+
+<div class="book-section-container">
+  <div class="book-section">
+          <div  class="inner-text ">
+              check-in-date<br>
+              <input type="date" placeholder="Check-in-date">
+          </div>
+          <div class="inner-text">
+              check-out-date<br>
+              <input type="date"placeholder="Check-out-date">
+          </div>
+          <div class="inner-text">
+              Rooms<br>
+              <input type="text" list="suite" placeholder="Suite">
+              <datalist id="suite">
+                <option value="Suite">
+                <option value="Family Room">
+                <option value="Delux Room">
+                <option value="Classic Room">
+                <option value="Superior Room">
+                <option value="Luxury Room">
+              </datalist>
+          </div>
+          <div class="inner-text">
+              Guests<br>
+              <input type="text" list="adult" placeholder="Adult">
+              <datalist id="adult">
+                <option value="1 Adult">
+                <option value="2 Adults">
+                <option value="Family">
+                <option value="4 Adults">
+                <option value="5 Adults">
+              </datalist>
+          </div>
+          <div class="inner-text">
+              <a href="www.google.com">Check Availability</a><br>
+              <div class="inner-text-description">Best price guaranteed!</div>
+          </div>
+  </div>  
+</div>
+
+<section class="section2">
+    <div class="heading1"> WELCOME TO <%= hotel.name %> </div>
+    <div class="heading2">A New Vision of Luxury Hotel</div>
+    <div class="service-showcase">
+      <div class="item"><img src="/images/service.png" alt="">Get Breakfast</div>
+      <div class="item"><img src="/images/carwash.png" alt="">Transfer Services</div>
+      <div class="item"><img src="/images/bell.png" alt="">Friendly Service</div>
+      <div class="item"><img src="/images/massage.png" alt="">Suits & Spa</div>
+      <div class="item"><img src="/images/double-bed.png" alt="">Cozy Rooms</div>
+    </div>
+    
+
+    <div class="describe">
+      <div class="item a">The shelter is the Outcome of the Dream</div>
+      <div class="item b"><p><%= hotel.name %> extends along a private, quiet and beautiful tropical beach. Stay away from the crowd and enjoy the beauty and lust of Cancun with us</p>
+       <p> <%= hotel.name %> Hotel & Spa is a family-friendly hotel that offers a wide range of accommodation types, from rooms to suites. All this in the peaceful surroundings of our beautiful gardens, will make your time at <%= hotel.address %> an unforgettable holiday.</p>
+      </div>
+    </div>
+</section>
+
+
+<section class="section3">
+
+<!-- <div class="hotel"> -->
+  <div id="carousel-hotel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <% for(let i in hotel.images){ %>
+          <% if (i == 0) { %>
+            			<div class="carousel-item active" style="background-image: url('<%= hotel.images[i].url %>');"></div>
+
+          <!-- <div class="carousel-item active">
+              <img src="<%= hotel.images[i].url %>" class="img-fluid d-block w-100" alt="...">
+          </div> -->
+          <% } else { %>
+            <div class="carousel-item" style="background-image: url('<%= hotel.images[i].url %>');"></div>
+
+          <!-- <div class="carousel-item">
+              <img src="<%= hotel.images[i].url %>" class="img-fluid d-block w-100" alt="...">
+          </div> -->
+          <% } %>
+          <% } %>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carousel-hotel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carousel-hotel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+<!-- </div> -->
+
+<% if (currentUser && hotel.author._id.equals(currentUser._id)) { %>
+  <div class ="edit-delete"><a class="edit-btn" href="/hotels/<%= hotel._id %>/edit">EDIT HOTEL</a>
+  <form action="/hotels/<%= hotel._id %>?_method=DELETE" method="post">
+      <input class="delete-btn" type="submit" value="DELETE HOTEL">
+  </form>
+</div>
+  <% } %>
+
+</section>
+
+
+<section class="section4">
+
+    <div class="hotel-details a">
+      <div class="heading"><h1><i class="fa-solid fa-hotel"></i><%= hotel.name %></h1> </div>
+      <div class="content"><h4><i class="fa-regular fa-circle-check fa-fade"></i> Address: <%= hotel.address %></h4></div>
+      <div class="content"><h4><i class="fa-regular fa-circle-check fa-fade"></i> Price:<%= hotel.price %></h4></div>
+      <div class="content"><h4><i class="fa-regular fa-circle-check fa-fade"></i> Room Available: <%= hotel.isRoomAvailable %></h4></div>
+      <div class="content"><h4><i class="fa-regular fa-circle-check fa-fade"></i> Hotel Review: <%= hotel.overAllRating %></h4></div>
+      <div class="content"><h4><i class="fa-regular fa-circle-check fa-fade"></i> Author: <a href="/users/<%= hotel.author._id %>"><%= hotel.author.username %></a></h4></div>
+      <div class="content"><h4><i class="fa-regular fa-circle-check fa-fade"></i> Created At: <%= hotel.createdAt.toDateString() %></h4></div>
+      <a class="checkout" href="/hotels/<%=hotel._id%>/checkout"><button class="btn btn-dark">CHECKOUT HOTEL</button></a>
+      <div class="location"><h1><i class="fa-solid fa-globe fa-spin"></i>Location <i class="fa-solid fa-arrow-right-long fa-beat"></i></h1></div>
+    </div>
+    <div class="hotel-details b">
+      <div id="map"></div>
+
+    </div>
+
+ 
+  
+</section>
+
+<section class="section5">
+<!-- <div class="show-banner"></div> -->
+<div class="video-box">
+  <div class="food-video">
+    <video autoplay muted loop id="myVideo">
+      <source src="https://player.vimeo.com/external/499152679.hd.mp4?s=570bfc72b72047f5b4a5444058079695a5a9aba5&profile_id=174&oauth2_token_id=57447761" type="video/mp4">
+      </video>
+  </div>
+  <div class="food-video details">
+    <div class="heading">Joyful experiences for you and your family</div>
+    <div class="content"><p><%= hotel.name %> has a unique menu centred around seasonal and local produce, including vegetables and herbs grown on-site in the Walled Garden. The Orangery is the club’s main dining space – open for breakfast, lunch and dinner, it has floor-to-ceiling windows for views across the grounds and out to the lake. There is also a terrace with outdoor dining</p></div>
+  </div>
+  <div class="food-video">
+    <video autoplay muted loop id="myVideo">
+      <source src="https://player.vimeo.com/external/499152557.hd.mp4?s=5295cec31b16eafdad990ad28b0e2b28c2dc2260&profile_id=174&oauth2_token_id=57447761" type="video/mp4">
+      </video>
+  </div>
+</div>
+  </section>
+
+<section class="section6">
+  <div class="bedroom">
+    <div class="rooms" style="background-image:url('https://cdn.pixabay.com/photo/2017/01/14/12/48/hotel-1979406_960_720.jpg')">
+      <div class="content">
+        <h3>Premium King Room</h3>
+        <span>10000/-Per Night</span><br>
+
+          Size:	30ft<br>
+          Capacity:	  Max person 5<br>
+          Bed:  	King Beds<br>
+          Services:  	Wifi, Television, Bathroom,...
+          <a href="/hotels/<%= hotel._id %>"><button class="pulse">More Details</button></a>
+
+      </div>
+    </div>
+    <div class="rooms" style="background-image:url('https://cdn.pixabay.com/photo/2019/08/19/13/58/bed-4416515_960_720.jpg')">
+      <div class="content">
+        <h3>Delux Room</h3>
+        <span>8000/-Per Night</span><br>
+
+          Size:	30ft<br>
+          Capacity:	  Max person 5<br>
+          Bed:  	King Beds<br>
+          Services:  	Wifi, Television, Bathroom,...
+          <a href="/hotels/<%= hotel._id %>"><button class="pulse">More Details</button></a>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="bedroom">
+    <div class="rooms" style="background-image:url('https://images.pexels.com/photos/2736388/pexels-photo-2736388.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')">
+      <div class="content">
+        <h3>Double Room</h3>
+        <span>7000/-Per Night</span><br>
+
+          Size:	30ft<br>
+          Capacity:	  Max person 5<br>
+          Bed:  	King Beds<br>
+          Services:  	Wifi, Television, Bathroom,...
+          <a href="/hotels/<%= hotel._id %>"><button class="pulse">More Details</button></a>
+      </div>
+    </div>
+    <div class="rooms" style="background-image:url('https://images.pexels.com/photos/1150962/pexels-photo-1150962.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')">
+      <div class="content">
+        <h3>Family Room</h3>
+        <span>5000/-Per Night</span><br>
+
+          Size:	30ft<br>
+          Capacity:	  Max person 5<br>
+          Bed:  	King Beds<br>
+          Services:  	Wifi, Television, Bathroom,...
+          <a href="/hotels/<%= hotel._id %>"><button class="pulse">More Details</button></a>
+
+      </div>
+    </div>
+  </div>
+</section>
+<div class="section7">
+  <div class="heading">The perfect place for getaways!</div>
+  <div class="item">
+    <div class="food abc">
+      <video autoplay muted loop id="myVideo">
+        <source src="https://player.vimeo.com/external/483839223.sd.mp4?s=fa56ff2d5443eb9aeb32dce1ed2cfe7c9cc9461f&profile_id=164&oauth2_token_id=57447761" type="video/mp4">
+        </video>
+    </div>
+    <div class="food abc">
+      <div class="food-caption aa">
+
+        <div class="heading1 ">A world-class restaurant</div>
+        <div class="content">The <%= hotel.name %> offers multiple cuisines prepared and served creatively. Its convenient location in <%= hotel.address %> makes it an ideal dining spot for guests on the go.</div>
+      </div>
+
+      </div>
+  </div>
+  <div class="item">
+    <div class="pool abc">
+      <div class="pool-caption aa">
+        <div class="heading2 ">Swimming Pool</div>
+        <div class="content"> <%= hotel.name %> extends along a private, quiet and beautiful tropical beach. Stay away from the crowd and enjoy the beauty and lust.</div>
+
+      </div>
+    </div>
+    <div class="pool abc">
+      <video autoplay muted loop id="myVideo">
+        <source src="https://player.vimeo.com/external/403833760.sd.mp4?s=309db6b4a56780b895f3150c561038edb10b5fe9&profile_id=164&oauth2_token_id=57447761" type="video/mp4">
+        </video>
+    </div>
+  </div>
+  <div class="item">
+    <div class="party abc">
+      <video autoplay muted loop id="myVideo">
+        <source src="https://player.vimeo.com/external/476547460.sd.mp4?s=9f400a901fde4a9f2651748325a34944d9b4e235&profile_id=164&oauth2_token_id=57447761" type="video/mp4">
+
+        <!-- <source src="/videos/banquet.mov" type="video/mov"> -->
+        </video>
+    </div>
+    <div class="party abc">
+      <div class="party-caption aa">
+        <div class="heading3">Party</div>
+        <div class="content">The <%= hotel.name %> is to make your stay at the hotel a happy and memorable one. We believe that our qualified and experienced staff will handle every detail and request professionally. </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="section8">
+  <div class="services-heading">
+    Services and Facilities
+    <h6>Exceptional service - endless possibilities</h6>
+  </div>
+  <div class="services-box">
+    <div class="items details">
+      <div class="paragraph">
+       <p> Whether you are travelling for business or pleasure, the luxury hotel services offered by the five star Grand Palace Hotel make it an ideal choice for your stay in Riga, Latvia. The hotel’s luxurious surroundings, comfort, thoughtful touches and a personalized service sets it apart from any other hotel, allowing you to feel like being at home from your very first steps into the hotel.</p>
+
+      <p> We are geared towards the fulfilment of the needs of any discerning guest and below you can find an alphabetical overview of the most commonly-used services and facilities offered by our boutique hotel.</p>
+      </div>
+      
+      <a href="/hotels/<%= hotel._id %>"><button class="btn btn-primary">Book Now!</button></a>
+    </div>
+    <div class="items services">
+      <h2>Hotel facilities</h2>
+      <ul>
+          <a href="/hotels/<%= hotel._id %>"><li>Banquet Facilities</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Bar</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Computer Facility</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Conference and meeting facilities</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Disabled room</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Fitness room</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Sauna</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Luggage storage</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Non-smoking rooms</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Parking outside the hotel<br> at an extra charge</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Pet friendly, at a surcharge</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Restaurant</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Summer Terrace</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Complimentary Wifi internet<br> through the entire hotel</li></a>
+        </ul>
+
+
+    </div>
+    <div class="items services">
+      <h2>Hotel Services</h2>
+      <!-- <div class="a"> -->
+        <ul>
+          <a href="/hotels/<%= hotel._id %>"><li>Car rental services</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Catering services</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Concierge services</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Courier services</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Doctor on call</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Dry cleaning</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Excursions and guided tours</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Flower arrangement</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Ironing service</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Laundry and valet service</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Mail services</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Room service (24-hour)</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Shoeshine service</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Ticket service</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Turndown service</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Valet parking</li></a>
+          <a href="/hotels/<%= hotel._id %>"><li>Transfer and chauffeur driven<br> limousine services</li></a>
+
+        </ul>
+      <!-- </div> -->
+    </div>
+  </div>
+</section>
+
+  <section class="section9">
+
+    <div class="row-review">
+      <div class="abc">
+        <div class="review-form item">
+          <div class="like-dislike">
+            <a href="/hotels/<%= hotel._id%>/upvote "><i class="fs-1 bi bi-hand-thumbs-up-fill"></i></a>
+            <a href="/hotels/<%= hotel._id%>/downvote "><i class="fs-1 bi bi-hand-thumbs-down-fill"></i></a>
+          </div>
+          <form id="abc" class="needs-validation" action="/hotels/<%=hotel._id %>/reviews" method="post" novalidate>
+            <h2>How would you rate your experience?</h2>
+            <fieldset class="starability-basic">
+              <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked
+                  aria-label="No rating." />
+              <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+              <label for="first-rate1" title="Terrible">1 star</label>
+              <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+              <label for="first-rate2" title="Not good">2 stars</label>
+              <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+              <label for="first-rate3" title="Average">3 stars</label>
+              <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+              <label for="first-rate4" title="Very good">4 stars</label>
+              <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+              <label for="first-rate5" title="Amazing">5 stars</label>
+          </fieldset>
+          <h3>Write your review</h3>
+                <div class="form-floating mb-3">
+                  <input name="review[body]" type="text" class="form-control" id="price" placeholder="Review Body" required>
+                  <label for="price">The pillows are the fluffiest I've ever felt...</label>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                  <div class="invalid-feedback">
+                    Please enter some text.
+                  </div>
+                </div>
+                <input class=" btn btn-primary" type="submit" value="Add Review">
+          </form>
+        </div>
+        <!-- <div class="review-people item">
+          <h1>All Reviews</h1>
+          <% for(let review of hotel.reviews) { %>
+            <div><%= review.body %></div>
+            <p class="starability-result" data-rating="<%= review.rating %>"></p>
+            <div><%= review.author.name %></div>
+          <% if (currentUser && review.author._id.equals(currentUser._id)) { %>
+            <form action="/hotels/<%= hotel._id %>/reviews/<%= review._id %>?_method=DELETE" method="post">
+                <input type="submit" class="btn btn-sm btn-danger" value="delete">
+            </form>
+          <% } %>
+          <% } %>
+        </div> -->
+        </div>
+        
+        <div class="abc">
+          <video autoplay muted loop id="myVideo">
+            <source src="https://player.vimeo.com/external/493019718.sd.mp4?s=f527f9fe8f4d87cdbd0c94d5d2ec0a597122030c&profile_id=165&oauth2_token_id=57447761" type="video/mp4">
+            </video>
+        </div>
+      </div>
+  </section>
+
+  <div class="section10">
+
+    <div class="review-people item">
+      <h1>All Reviews</h1>
+      <% for(let review of hotel.reviews) { %>
+        <div><%= review.body %></div>
+        <p class="starability-result" data-rating="<%= review.rating %>"></p>
+        <div><%= review.author.name %></div>
+      <% if (currentUser && review.author._id.equals(currentUser._id)) { %>
+        <form action="/hotels/<%= hotel._id %>/reviews/<%= review._id %>?_method=DELETE" method="post">
+            <input type="submit" class="btn btn-sm btn-danger" value="delete">
+        </form>
+      <% } %>
+      <% } %>
+    </div>
+  </div>
+
+  <section class="section11">
+    <div class="footer a"></div>
+    <div class="footer b">
+      <div class="footer-1">
+        <div class="item">
+          <div class="footer-item">
+            <h3><%= hotel.name %> </h3>
+          </div>
+          
+          <div class="footer-item">
+            <div class="details">
+              <%= hotel.name %> extends along a private, quiet and beautiful tropical beach. Stay away from the crowd and enjoy the beauty and lust of Cancun with us
+            </div>
+            
+           
+          </div>
+          </div>
+        <div class="item">
+          <div class="footer-item">
+            <h3>Services</h3>
+          </div>
+          <div class="footer-item">
+           <div> <a href="/hotels/<%= hotel._id %>">Car rental services</a></div>
+           <div> <a href="/hotels/<%= hotel._id %>">Catering services</a></div>
+           <div> <a href="/hotels/<%= hotel._id %>">Concierge services</a></div>
+           <div> <a href="/hotels/<%= hotel._id %>">Courier services</a></div>
+           <div> <a href="/hotels/<%= hotel._id %>">Doctor on call</a></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="footer-item"></div>
+          <div class="footer-item">
+            <a href="/hotels/<%= hotel._id %>">Laundry and valet service</a>
+          <a href="/hotels/<%= hotel._id %>">Mail services</a>
+          <a href="/hotels/<%= hotel._id %>">Room service (24-hour)</a>
+          <a href="/hotels/<%= hotel._id %>">Shoeshine service</a>
+          <a href="/hotels/<%= hotel._id %>">Ticket service</a>
+          </div>
+
+        </div>
+        <div class="item">
+            <div class="footer-item">
+              <h3>Quick Links</h3>
+            </div>
+            
+            <div class="footer-item">
+              <div><a href="#">Home</a></div> 
+              <div> <a href="/hotels">Hotels</a></div>
+              <div> <a href="/hotels">About</a> </div>
+              <div><a href="/hotels">Resto and Bar</a></div> 
+          </div>
+        </div>
+        <div class="item">
+          <div class="footer-item"><h3>Have a question?</h3></div>
+          <div class="footer-item">
+            <div><i class="fa-solid fa-location-dot"></i>	209/79, Limbodi,Indore, Madhya Pradesh, India</div>
+          <div>  <a href="/hotels/<%= hotel._id %>"><i class="fa-solid fa-phone"></i> +91 9644253610</a></div>
+          <div><i class="fa-regular fa-envelope"></i> prashugupta.pg66@gmail.com</div>
+          <div class="social-media">  <i class="fa-brands fa-instagram fa-beat">  </i><i class="fa-brands fa-square-facebook fa-beat"></i>  <i class="fa-brands fa-twitter fa-beat"></i></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="footer-2">
+        Copyright ©2023 All rights reserved
+      </div>
+    </div>
+  </section>
+
+
+<script>
+  let arr = [];
+  arr.push( coordinates[0] ); 
+  arr.push( coordinates[1] ); 
+  mapboxgl.accessToken = 'pk.eyJ1Ijoic3BsaWNlcjk5MDQiLCJhIjoiY2xnN2s5OTB3MDY3azNndDNpa2owaHZ2YiJ9.PedtrrnU42OwchHkKqrmLQ';
+  const map = new mapboxgl.Map({
+      container: 'map', // container ID
+
+      style: 'mapbox://styles/mapbox/outdoors-v12',
+      center: arr,
+      zoom: 10
+  });
+  const marker1 = new mapboxgl.Marker()
+      .setLngLat(arr)
+      .setPopup(new mapboxgl.Popup()
+          .setHTML('<h4><%=hotel.name%></h4><p><%=hotel.address%></p>'))
+      .addTo(map);
+</script>
+<script src="/scripts/form-validation.js"></script>
+<script src="https://kit.fontawesome.com/4ce2aaf47a.js" crossorigin="anonymous"></script>
+<%- include('../partials/footer.ejs') %>

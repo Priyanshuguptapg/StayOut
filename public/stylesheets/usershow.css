@@ -1,0 +1,40 @@
+
+
+
+.section1{
+    width:100%;
+    background-image: radial-gradient(
+        circle,
+        rgba(0, 0, 0, 0.4),
+        rgba(0, 0, 0, 0.4),
+        rgba(0, 0, 0, 0.4)
+      ), url('/images/pinky.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position:center;
+    background-attachment: fixed;
+    height: 100vh;
+    color: rgb(255, 255, 255);
+    font-family: 'Grenze', serif;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.section1 .userdetails{
+    width: 45%;
+    height:80%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.689);
+    justify-content: space-evenly;
+    box-shadow: 0 0 3px 2px rgb(68, 68, 68);
+    font-size: 1.5rem;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}

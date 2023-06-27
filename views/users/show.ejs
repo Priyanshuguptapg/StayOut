@@ -1,0 +1,13 @@
+<%- include('../partials/header.ejs') %>
+<link rel="stylesheet" href="/stylesheets/usershow.css">
+
+<div class="section1">
+    <div class="userdetails">
+        <div><%= user.name %></div>
+        <div><%= user.username %></div>
+        <img src="<%= user.image %>" alt="">
+        <div><a class="btn btn-info" href="/users/<%= user._id %>/edit">Edit</a></div>
+    </div>
+</div>
+
+<%- include('../partials/footer.ejs') %>

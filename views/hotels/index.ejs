@@ -1,0 +1,281 @@
+
+<!-- Font Awesome -->
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+rel="stylesheet"
+/>
+<!-- Google Fonts -->
+<link
+href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+rel="stylesheet"
+/>
+<!-- MDB -->
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"
+rel="stylesheet"
+/>
+
+<%- include('../partials/header.ejs') %>
+<link rel="stylesheet" href="/stylesheets/index.css">
+
+
+<section class="section-1">
+    <div class="banner" style="background-image: url('https://images.pexels.com/photos/372225/pexels-photo-372225.jpeg')">
+        <div class="banner-text">
+            MERGE YOURSELF<br> WITH LUXURY
+        </div>
+    </div>
+</section>
+
+<section class="section-2">
+
+    <div class="book-section-container">
+        <div class="book-section">
+                <div  class="inner-text ">
+                    check-in-date<br>
+                    <input type="date" placeholder="Check-in-date">
+                </div>
+                <div class="inner-text">
+                    check-out-date<br>
+                    <input type="date"placeholder="Check-out-date">
+                </div>
+                <div class="inner-text">
+                    Rooms<br>
+                    <input type="text" list="suite" placeholder="Suite">
+                    <datalist id="suite">
+                      <option value="Suite">
+                      <option value="Family Room">
+                      <option value="Delux Room">
+                      <option value="Classic Room">
+                      <option value="Superior Room">
+                      <option value="Luxury Room">
+                    </datalist>
+                </div>
+                <div class="inner-text">
+                    Guests<br>
+                    <input type="text" list="adult" placeholder="Adult">
+                    <datalist id="adult">
+                      <option value="1 Adult">
+                      <option value="2 Adults">
+                      <option value="Family">
+                      <option value="4 Adults">
+                      <option value="5 Adults">
+                    </datalist>
+                </div>
+                <div class="inner-text">
+                    <a href="www.google.com">Check Availability</a><br>
+                    <div class="inner-text-description">Best price guaranteed!</div>
+                </div>
+        </div>  
+    </div>
+
+    
+    <div class="offers">
+        <div class="offer-items"><img src="https://i.pinimg.com/564x/3e/ec/37/3eec376c0a87d6a426c3f3548190cc51.jpg" alt=""></div>
+        <div class="offer-items description"><h1><a href="/hotels">Take advantage of our seasonal specials!</a></h1>
+            The concept and service of the best luxury hotels in Asturias in our sophisticated Urban Double and Unique Junior Suite rooms, with the possibility of enjoying a furnished terrace in our Double Urban Loft and Unique Junior Loft Suite.
+            <div class="button"><a href="/hotels"><button type="button" class="btn btn-outline-light">Click Here</button></a></div>
+        </div>
+
+
+    </div>
+
+
+    <div class="row search-container">
+        
+    </div>
+    <div class="name">    
+        <div class="waviy">
+        <span class="xyz" style="--i:1">H</span>
+        <span class="xyz" style="--i:2">O</span>
+        <span class="xyz" style="--i:3">T</span>
+        <span class="xyz" style="--i:4">E</span>
+        <span class="xyz" style="--i:5">L</span>
+        <span class="xyz" style="--i:6">S</span>
+    </div>
+
+    <div class="input-group">
+        <span class="input-group-text" id="basic-addon1">@</span>
+        <input type="text" class="form-control" placeholder="Search Hotel" aria-label="Username"
+            aria-describedby="basic-addon1" id="searchInput" onkeyup="searchHotel()">
+    </div>
+
+</div>
+
+</section>
+
+<!-- <section class="section-3">
+    <div class="body1">
+       <div class="info">Style accompanied by comfort</div>
+    </div>  
+
+    <div class="waviy">
+        <span style="--i:1">H</span>
+        <span style="--i:2">O</span>
+        <span style="--i:3">T</span>
+        <span style="--i:4">E</span>
+        <span style="--i:5">L</span>
+        <span style="--i:6">S</span>
+    </div>
+</section> -->
+
+
+<div class="section3">
+    <% for(let hotel of hotels.docs){ %>
+        <div class="hotel-card">
+
+            <div class="carousel-inner carousel slide hotel-display" data-bs-ride="carousel">
+                <% for(let i in hotel.images){ %>
+                  <% if (i == 0) { %>
+                  <div class="carousel-item active" style="background-image: url('<%= hotel.images[i].url %>');"></div>
+                  <% } else { %>
+                  <div class="carousel-item" style="background-image: url('<%= hotel.images[i].url %>');"></div>
+                  <% } %>
+                  <% } %>
+              </div>
+
+            <div class="hotel-name"><%= hotel.name %></div>
+            <div class="abc">Address: <%= hotel.address %></div>
+            <div class="abc">Price Starting From: <%= hotel.price %>/-</div>
+            <div class="abc">Rating: <%= hotel.overAllRating %></div>
+            <a class="pulse" href="/hotels/<%= hotel._id %>">Read more</a>
+        </div>
+    <% } %>
+    </div>
+
+<section class="section-5">
+    <div class="offers-paragraph">
+        <h5>Escape for a while</h5>
+        <h6>Enjoy the freedom of a monthly stay on StayOut</h6>
+        <h6>Save at least 15% on stays worldwide, from relaxing retreats to off-grid adventures</h6>
+        <a href="/hotels"><button type="button" class="btn btn-primary my-4">Discover monthly Stays</button></a>
+      </div>
+      <div class="explore">EXPLORE INDIA</div>    
+      <div class="showcase-container p-0 row">
+          <div class="item col-2 m-0 p-0">
+              <div class="item1" style="background-image: url('https://images.unsplash.com/photo-1515238152791-8216bfdf89a7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80')">
+              </div>
+              <div class="showcase-text">Goa</div>
+          </div>
+          <div class="item col-2 m-0 p-0">
+              <div class="item1" style="background-image: url('https://images.unsplash.com/photo-1638886540342-240980f60d25?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80');">
+              </div>
+              <div class="showcase-text">Ooty</div>
+          </div>
+          <div class="item col-2 m-0 p-0">
+              <div class="item1" style="background-image: url('https://images.unsplash.com/photo-1524544187526-2b2855b65f16?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1965&q=80')
+              ">
+              </div>
+              <div class="showcase-text">Bengluru</div>
+          </div>
+          <div class="item col-2 m-0 p-0">
+              <div class="item1" style="background-image: url('https://cdn.pixabay.com/photo/2015/07/08/12/23/nepal-836309_960_720.jpg')
+              ">
+              </div> 
+              <div class="showcase-text">Shimla</div>
+          </div>
+          <div class="item col-2 m-0 p-0">
+            <div class="item1" style="background-image: url('https://images.unsplash.com/photo-1587474260584-136574528ed5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80')
+            ">
+            </div> 
+            <div class="showcase-text">Delhi</div>
+        </div>
+        <div class="item col-2 m-0 p-0">
+          <div class="item1" style="background-image: url('https://images.unsplash.com/photo-1477586957327-847a0f3f4fe3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80')
+          ">
+          </div> 
+          <div class="showcase-text">Jaipur</div>
+      </div>
+      </div>
+</section>
+
+<section class="section-6">
+
+   <div class="paginate">
+    <%- include('../partials/paginate.ejs') %>
+   </div> 
+
+   <div class="footer">
+    <div class="footer-1">
+        <div class="item">
+          <div class="footer-item">
+            <h3>StayOut </h3>
+          </div>
+          
+          <div class="footer-item">
+            <div class="details">
+              Find your comfort here!
+            </div>
+            <div class="social-media">  <i class="fa-brands fa-instagram fa-beat">  </i>
+                <i class="fa-brands fa-facebook-f fa-beat"></i>
+                <i class="fa-brands fa-twitter fa-beat"></i></div>
+           
+          </div>
+          </div>
+        <div class="item">
+          <div class="footer-item">
+            <h3>Services</h3>
+          </div>
+          <div class="footer-item">
+           <div> <a href="/hotels">Car rental services</a></div>
+           <div> <a href="/hotels">Catering services</a></div>
+           <div> <a href="/hotels">Concierge services</a></div>
+           <div> <a href="/hotels">Courier services</a></div>
+           <div> <a href="/hotels">Doctor on call</a></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="footer-item"></div>
+          <div class="footer-item">
+            <a href="/hotels">Laundry and valet service</a>
+          <a href="/hotels">Mail services</a>
+          <a href="/hotels">Room service (24-hour)</a>
+          <a href="/hotels">Shoeshine service</a>
+          <a href="/hotels">Ticket service</a>
+          </div>
+
+        </div>
+        <div class="item">
+            <div class="footer-item">
+              <h3>Quick Links</h3>
+            </div>
+            
+            <div class="footer-item">
+              <div><a href="#">Home</a></div> 
+              <div> <a href="/hotels">Hotels</a></div>
+              <div> <a href="/hotels">About</a> </div>
+              <div><a href="/hotels">Resto and Bar</a></div> 
+          </div>
+        </div>
+        <div class="item">
+          <div class="footer-item"><h3>Have a question?</h3></div>
+          <div class="footer-item">
+            <div><i class="fa-solid fa-location-dot"></i>	209/79, Limbodi, Indore, Madhya Pradesh, India</div>
+          <div>  <a href="/hotels"><i class="fa-solid fa-phone"></i> +91 9644253610</a></div>
+          <div><i class="fa-regular fa-envelope"></i> prashugupta.pg66@gmail.com</div>
+
+          </div>
+        </div>
+      </div>
+      <div class="footer-2">
+        Copyright ©2023 All rights reserved
+      </div>
+   </div>
+
+</section>
+
+
+
+
+
+
+
+
+<!-- MDB -->
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"
+></script>
+<script src="/scripts/app.js"></script>
+
+<%- include('../partials/footer.ejs') %>
